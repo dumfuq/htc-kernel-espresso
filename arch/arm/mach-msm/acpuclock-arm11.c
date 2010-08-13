@@ -118,11 +118,8 @@ static struct clkctl_acpu_speed msm7227_tbl[] = {
 	{  245760, ACPU_PLL_1, 1, 0, 122880, 1, VDD_4, 122880, 0, -1, 7 },
 	{  320000, ACPU_PLL_0, 4, 2, 160000, 1, VDD_5, 160000, 0, 1, 7 },
 	{  400000, ACPU_PLL_2, 2, 2, 133333, 2, VDD_5, 160000, 0, 3, -1 },
-	{  480000, ACPU_PLL_0, 4, 1, 160000, 2, VDD_6, 160000, 0, 5, -1 },
-	{  600000, ACPU_PLL_2, 2, 1, 200000, 2, VDD_7, 200000, 0, 6, -1, -1 },
-	{  614400, ACPU_PLL_2, 2, 1, 132000, 3, VDD_7, 160000, 0, 5, -1, 0x20 },
-	{  633600, ACPU_PLL_2, 2, 1, 132000, 3, VDD_7, 160000, 0, 5, -1, 0x21 },
-	{  652800, ACPU_PLL_2, 2, 1, 200000, 2, VDD_7, 200000, 0, 7, -1, 0x22 },
+	{  600000, ACPU_PLL_2, 2, 1, 200000, 2, VDD_7, 200000, 0, 5, -1 },
+	{  768000, ACPU_PLL_0, 4, 1, 200000, 3, VDD_7, 200000, 0, 6, -1, 0x28 },
 	{  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 };
 
@@ -166,12 +163,9 @@ static struct cpufreq_frequency_table msm7227_freq_table[] = {
 	{ 1, 122880 },
 	{ 2, 128000 },
 	{ 3, 245760 },
-	{ 4, 480000 },
-	{ 5, 600000 },
-	{ 6, 614400 },
-	{ 7, 633600 },
-	{ 8, 652800 },
-	{ 9, CPUFREQ_TABLE_END },
+	{ 4, 600000 },
+	{ 5, 768000 },
+	{ 6, CPUFREQ_TABLE_END },
 };
 
 static struct cpufreq_frequency_table msm72xx_freq_table[] = {
@@ -323,9 +317,9 @@ static void acpuclk_set_div(const struct clkctl_acpu_speed *hunt_s) {
 
 	a11_div=hunt_s->a11clk_src_div;
 	
-	if (hunt_s->a11clk_khz > 600000 && hunt_s->pll2_lval > 0){
+	if (hunt_s->a11clk_khz > 600000 && hunt_s->pll2_lval > 0) {
 	        a11_div=0;
-	        writel(hunt_s->a11clk_khz/19200, MSM_CLK_CTL_BASE+0x33C);
+	        writel(hunt_s->a11clk_khz/19200, MSM_CLK_CTL_BASE+0x304);
 	        udelay(50);
 	}
 
